@@ -2,7 +2,7 @@ from celery import Celery
 import cloudpassage
 
 
-app = Celery()
+app = Celery(backend='redis://redis')
 
 
 @app.task
