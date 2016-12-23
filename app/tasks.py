@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from .celery import app
 import cloudpassage
+import os
 
 
 halo_key = os.getenv("HALO_API_KEY")
