@@ -10,5 +10,3 @@ RUN pip install \
     flower
 
 COPY app/ /app
-
-WORKDIR /app
