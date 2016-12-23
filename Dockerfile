@@ -7,6 +7,7 @@ RUN apk add -U \
 
 RUN pip install \
     celery \
-    flower
+    flower \
+    cloudpassage
 
 COPY app/ /app
