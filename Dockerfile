@@ -11,3 +11,5 @@ RUN pip install \
     cloudpassage
 
 COPY app/ /app
+
+WORKDIR /app

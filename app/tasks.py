@@ -1,12 +1,8 @@
-from __future__ import absolute_import, unicode_literals
-from .celery import app
+from celery import Celery
 import cloudpassage
-import os
 
 
-halo_key = os.getenv("HALO_API_KEY")
-halo_secret = os.getenv("HALO_API_SECRET_KEY")
-halo_session = cloudpassage.HaloSession(halo_key, halo_secret)
+app = Celery()
 
 
 @app.task
