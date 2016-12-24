@@ -6,7 +6,7 @@ RUN apk add -U \
     py-pip
 
 RUN pip install \
-    celery \
+    celery[redis] \
     flower \
     cloudpassage
 
