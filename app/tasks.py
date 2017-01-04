@@ -4,11 +4,6 @@ from celery import Celery
 app = Celery(backend='redis://redis')
 
 
-def get_creds():
-    return {"halo_key": os.getenv["HALO_API_KEY"],
-            "halo_secret": os.getenv["HALO_API_SECRET_KEY"]}
-
-
 @app.task
 def server_report(target):
     """Accepts a hostname or server_id"""
@@ -18,11 +13,8 @@ def server_report(target):
 
 @app.task
 def list_all_servers():
-    creds = get_creds()
-    halo_session = cloudpassage.HaloSession(creds["halo_key"],
-                                            creds["halo_secret"])
-    servers = cloudpassage.Server(halo_session)
-    return servers.list_all()
+    halo = apputils.Halo()
+    return halo.list_all_servers()
 
 
 @app.task
@@ -33,8 +25,5 @@ def group_report(target):
 
 @app.task
 def list_all_groups():
-    creds = get_creds()
-    halo_session = cloudpassage.HaloSession(creds["halo_key"],
-                                            creds["halo_secret"])
-    servers = cloudpassage.ServerGroup(halo_session)
-    return servers.list_all()
+    halo = apputils.Halo()
+    return halo.list_all_groups()

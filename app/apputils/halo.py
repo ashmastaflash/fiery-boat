@@ -9,6 +9,14 @@ class Halo(object):
         self.session = cloudpassage.HaloSession(self.halo_api_key,
                                                 self.halo_api_secret)
 
+    def list_all_servers(self):
+        servers = cloudpassage.Server(self.session)
+        return servers.list_all()
+
+    def list_all_groups(self):
+        groups = cloudpassage.ServerGroup(self.session)
+        return groups.list_all()
+
     def generate_server_report(self, target):
         server_id = self.get_id_for_server_target(target)
         structure = {}
