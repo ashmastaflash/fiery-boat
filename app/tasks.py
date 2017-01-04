@@ -20,7 +20,7 @@ def list_all_servers():
 @app.task
 def group_report(target):
     halo = apputils.Halo()
-    returnhalo.generate_group_report(target)
+    return halo.generate_group_report(target)
 
 
 @app.task
