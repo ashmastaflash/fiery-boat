@@ -5,10 +5,9 @@ app = Celery(backend='redis://redis')
 
 
 @app.task
-def server_report(target):
-    """Accepts a hostname or server_id"""
+def list_all_groups():
     halo = apputils.Halo()
-    return halo.generate_server_report(target)
+    return halo.list_all_groups()
 
 
 @app.task
@@ -18,12 +17,19 @@ def list_all_servers():
 
 
 @app.task
-def group_report(target):
+def report_group(target):
     halo = apputils.Halo()
     return halo.generate_group_report(target)
 
 
 @app.task
-def list_all_groups():
+def report_server(target):
+    """Accepts a hostname or server_id"""
     halo = apputils.Halo()
-    return halo.list_all_groups()
+    return halo.generate_server_report(target)
+
+
+@app.task
+def servers_in_group(target):
+    """Accepts groupname or ID"""
+    return halo.list_servers_in_group(target)
