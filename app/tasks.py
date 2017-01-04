@@ -4,6 +4,11 @@ from celery import Celery
 app = Celery(backend='redis://redis')
 
 
+def get_creds():
+    return {"halo_key": os.getenv["HALO_API_KEY"],
+            "halo_secret": os.getenv["HALO_API_SECRET_KEY"]}
+
+
 @app.task
 def server_report(target):
     """Accepts a hostname or server_id"""
