@@ -118,14 +118,18 @@ class Halo(object):
                 result = None
         return result
 
-    def get_events_by_server(self, server_id, starting=util.iso8601_today()):
-        """Return all events for a server.  Date scope defaults to today."""
+    def get_events_by_server(self, server_id, number_of_events=20):
+        """Return events for a server.  Defaults to last 100."""
         events = []
+        starting = util.iso8601_yesterday()
+        search_params = {"server_id": server_id, "sort_by": "created_at.desc"}
         h_e = haloevents.HaloEvents(self.halo_api_key, self.halo_api_secret,
                                     start_timestamp=starting,
-                                    search_params={"server_id": server_id})
+                                    search_params=search_params)
         for event in h_e:
             events.append(event)
+            if len(events) >= number_of_events:
+                break
         return events
 
     def get_issues_by_server(self, server_id):
