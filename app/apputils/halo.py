@@ -1,5 +1,5 @@
 import cloudpassage
-import utility.Utility as util
+from utility import Utility as util
 
 
 class Halo(object):
