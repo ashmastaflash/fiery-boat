@@ -1,7 +1,8 @@
 import apputils
 from celery import Celery
+import os
 
-app = Celery(backend='redis://redis')
+app = Celery(backend=os.getenv("CELERY_BACKEND_URL"))
 
 
 @app.task

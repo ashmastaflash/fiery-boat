@@ -41,7 +41,6 @@ RUN cd halo-scans && \
 
 
 # Copy over the app
-COPY app/ /app
-
-
+RUN mkdir /app
 WORKDIR /app
+RUN git clone https://github.com/ashmastaflash/halocelery
