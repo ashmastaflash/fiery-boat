@@ -19,9 +19,12 @@ RUN apk add -U \
 
 # Install components from pip
 RUN pip install \
+    boto3==1.4.3 \
     celery[redis]==4.0.2 \
-    flower==0.9.1 \
-    cloudpassage==${HALO_SDK_VERSION}
+    cloudpassage==${HALO_SDK_VERSION} \
+    flower==0.9.1
+
+
 
 
 # Setup for manual library installation
