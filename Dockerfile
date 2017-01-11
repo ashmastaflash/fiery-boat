@@ -7,6 +7,9 @@ ENV HALO_SDK_VERSION=1.0.1
 ENV HALO_EVENTS_VERSION=v0.10.2
 ENV HALO_SCANS_VERSION=v0.11
 
+ENV HALO_API_HOSTNAME=api.cloudpassage.com
+ENV HALO_API_PORT=443
+
 # Package installation
 RUN apk add -U \
     git==2.8.3-r0 \
