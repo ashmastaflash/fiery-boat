@@ -13,6 +13,7 @@ ENV HALO_API_PORT=443
 
 # Package installation
 RUN apk add -U \
+    font-adobe-100dpi==1.0.3-r0 \
     gcc==5.3.0-r0 \
     git=2.8.3-r0 \
     graphviz==2.38.0-r5 \
