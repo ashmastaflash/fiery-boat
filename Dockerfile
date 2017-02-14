@@ -7,6 +7,7 @@ ENV HALO_SDK_VERSION=1.0.1
 ENV HALO_EVENTS_VERSION=v0.10.2
 ENV HALO_SCANS_VERSION=v0.11
 ENV FIREWALL_GRAPH_VERSION=v0.1
+ENV SCAN_GRAPH_VERSION=v0.1
 
 ENV HALO_API_HOSTNAME=api.cloudpassage.com
 ENV HALO_API_PORT=443
@@ -58,6 +59,13 @@ RUN git clone https://github.com/cloudpassage-community/firewall-graph
 RUN cd firewall-graph && \
     git checkout ${FIREWALL_GRAPH_VERSION} && \
     pip install .
+
+# Install Scan Graph library
+RUN git clone https://github.com/cloudpassage-community/scan-graph
+RUN cd scan-graph && \
+    git checkout ${SCAN_GRAPH_VERSION} && \
+    pip install .
+
 
 # Copy over the app
 RUN mkdir /app
