@@ -15,14 +15,14 @@ ENV HALO_API_PORT=443
 # Package installation
 RUN apt-get update && \
     apt-get install -y \
-    gcc==4:6.2.1-1ubuntu1 \
-    git==1:2.10.2-3 \
-    graphviz==2.38.0-16ubuntu1 \
-    graphviz-dev==2.38.0-16ubuntu1 \
-    linux-headers-generic==4.9.0.15.19 \
-    python==2.7.11-2 \
-    python-dev==2.7.11-2 \
-    python-pip==9.0.1-2
+    gcc=4:6.2.1-1ubuntu1 \
+    git=1:2.10.2-3 \
+    graphviz=2.38.0-16ubuntu1 \
+    graphviz-dev=2.38.0-16ubuntu1 \
+    linux-headers-generic=4.9.0.15.19 \
+    python=2.7.11-2 \
+    python-dev=2.7.11-2 \
+    python-pip=9.0.1-2
 
 
 # Install components from pip
@@ -32,8 +32,8 @@ RUN pip install \
     cloudpassage==${HALO_SDK_VERSION} \
     flower==0.9.1
 
-
-
+RUN pip install \
+    pygraphviz==1.4rc1 --install-option="--include-path=/usr/include/graphviz" --install-option="--library-path=/usr/lib/graphviz/"
 
 # Setup for manual library installation
 RUN mkdir /src/
