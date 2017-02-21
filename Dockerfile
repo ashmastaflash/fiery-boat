@@ -20,8 +20,8 @@ RUN apt-get update && \
     graphviz=2.38.0-16ubuntu1 \
     graphviz-dev=2.38.0-16ubuntu1 \
     linux-headers-generic=4.9.0.15.19 \
-    python=2.7.11-2 \
-    python-dev=2.7.11-2 \
+    python=2.7.13-2 \
+    python-dev=2.7.13-2 \
     python-pip=9.0.1-2
 
 
@@ -47,7 +47,7 @@ RUN cd halo-events && \
     pip install .
 
 
-# Install Halo Events library
+# Install Halo Scans library
 RUN git clone https://github.com/cloudpassage/halo-scans
 RUN cd halo-scans && \
     git checkout ${HALO_SCANS_VERSION} && \
