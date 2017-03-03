@@ -19,7 +19,7 @@ RUN apt-get update && \
     git=1:2.10.2-3 \
     graphviz=2.38.0-16ubuntu1 \
     graphviz-dev=2.38.0-16ubuntu1 \
-    linux-headers-generic=4.10.0.8.10 \
+    linux-headers-generic \
     python=2.7.13-2 \
     python-dev=2.7.13-2 \
     python-pip=9.0.1-2
