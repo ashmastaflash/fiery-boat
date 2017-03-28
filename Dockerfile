@@ -16,7 +16,7 @@ ENV HALO_API_PORT=443
 RUN apt-get update && \
     apt-get install -y \
     gcc=4:6.2.1-1ubuntu1 \
-    git=1:2.10.2-3 \
+    git=1:2.11.0-2 \
     graphviz=2.38.0-16ubuntu1 \
     graphviz-dev=2.38.0-16ubuntu1 \
     linux-headers-generic \
