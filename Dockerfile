@@ -12,6 +12,9 @@ ENV SCAN_GRAPH_VERSION=v0.1.1
 ENV HALO_API_HOSTNAME=api.cloudpassage.com
 ENV HALO_API_PORT=443
 
+ENV APP_USER=fieryboat
+ENV APP_GROUP=fieryboatgroup
+
 # Package installation
 RUN apt-get update && \
     apt-get install -y \
@@ -70,3 +73,4 @@ RUN cd scan-graph && \
 RUN mkdir /app
 WORKDIR /app
 RUN git clone https://github.com/ashmastaflash/halocelery
+RUN chown -R ${APP_USER}:${APP_GROUP} /app
