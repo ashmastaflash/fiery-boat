@@ -8,6 +8,7 @@ ENV HALO_EVENTS_VERSION=v0.10.4
 ENV HALO_SCANS_VERSION=v0.11
 ENV FIREWALL_GRAPH_VERSION=v0.1
 ENV SCAN_GRAPH_VERSION=v0.1.1
+ENV HALOCELERY_VERSION=v0.1
 
 ENV HALO_API_HOSTNAME=api.cloudpassage.com
 ENV HALO_API_PORT=443
@@ -42,35 +43,59 @@ RUN pip install \
 RUN mkdir /src/
 WORKDIR /src/
 
-
 # Install Halo Events library
-RUN git clone https://github.com/cloudpassage/halo-events
-RUN cd halo-events && \
-    git checkout ${HALO_EVENTS_VERSION} && \
+RUN git clone \
+        -b  ${HALO_EVENTS_VERSION} \
+        --single-branch \
+        https://github.com/cloudpassage/halo-events && \
+    cd halo-events && \
     pip install .
 
-
 # Install Halo Scans library
-RUN git clone https://github.com/cloudpassage/halo-scans
-RUN cd halo-scans && \
-    git checkout ${HALO_SCANS_VERSION} && \
+RUN git clone \
+        -b ${HALO_SCANS_VERSION} \
+        --single-branch \
+        https://github.com/cloudpassage/halo-scans && \
+    cd halo-scans && \
     pip install .
 
 # Install Firewall Graph library
-RUN git clone https://github.com/cloudpassage-community/firewall-graph
-RUN cd firewall-graph && \
-    git checkout ${FIREWALL_GRAPH_VERSION} && \
+RUN git clone \
+        -b ${FIREWALL_GRAPH_VERSION} \
+        --single-branch \
+        https://github.com/cloudpassage-community/firewall-graph && \
+    cd firewall-graph && \
     pip install .
 
 # Install Scan Graph library
-RUN git clone https://github.com/cloudpassage-community/scan-graph
-RUN cd scan-graph && \
-    git checkout ${SCAN_GRAPH_VERSION} && \
+RUN git clone \
+        -b ${SCAN_GRAPH_VERSION} \
+        --single-branch \
+        https://github.com/cloudpassage-community/scan-graph && \
+    cd scan-graph && \
     pip install .
 
 
 # Copy over the app
 RUN mkdir /app
 WORKDIR /app
-RUN git clone https://github.com/ashmastaflash/halocelery
-RUN chown -R ${APP_USER}:${APP_GROUP} /app
+RUN git clone \
+        -b ${HALOCELERY_VERSION} \
+        --single-branch \
+        https://github.com/ashmastaflash/halocelery && \
+
+# Set the user and chown the app
+RUN addgroup ${APP_GROUP} && \
+    adduser \
+        -D \
+        -G ${APP_GROUP} \
+        -s /bin/sh \
+        -h /app \
+        ${APP_USER} && \
+    apk add --no-cache \
+        git=2.8.5-r0 \
+        python=2.7.12-r0 \
+        py-pip=8.1.2-r0 && \
+    pip install -r /app/requirements.txt && \
+    py.test --flake8 --cov=donlib /app/test && \
+    chown -R ${APP_USER}:${APP_GROUP} /app
