@@ -8,7 +8,7 @@ ENV HALO_EVENTS_VERSION=v0.10.4
 ENV HALO_SCANS_VERSION=v0.11
 ENV FIREWALL_GRAPH_VERSION=v0.1
 ENV SCAN_GRAPH_VERSION=v0.1.1
-ENV HALOCELERY_VERSION=v0.1
+ENV HALOCELERY_VERSION=v0.2
 
 ENV HALO_API_HOSTNAME=api.cloudpassage.com
 ENV HALO_API_PORT=443
@@ -82,20 +82,17 @@ WORKDIR /app
 RUN git clone \
         -b ${HALOCELERY_VERSION} \
         --single-branch \
-        https://github.com/ashmastaflash/halocelery && \
+        https://github.com/ashmastaflash/halocelery
 
 # Set the user and chown the app
-RUN addgroup ${APP_GROUP} && \
-    adduser \
-        -D \
-        -G ${APP_GROUP} \
-        -s /bin/sh \
-        -h /app \
-        ${APP_USER} && \
-    apk add --no-cache \
-        git=2.8.5-r0 \
-        python=2.7.12-r0 \
-        py-pip=8.1.2-r0 && \
-    pip install -r /app/requirements.txt && \
-    py.test --flake8 --cov=donlib /app/test && \
-    chown -R ${APP_USER}:${APP_GROUP} /app
+RUN groupadd ${APP_GROUP}
+
+RUN useradd \
+        --groups ${APP_GROUP} \
+        --shell /bin/sh \
+        --home-dir /app \
+        ${APP_USER}
+
+RUN chown -R ${APP_USER}:${APP_GROUP} /app
+
+USER ${APP_USER}
