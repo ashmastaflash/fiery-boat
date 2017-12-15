@@ -4,10 +4,8 @@ MAINTAINER @ashmastaflash
 
 # Versions of things and stuff
 ENV HALO_SDK_VERSION=1.0.1
-ENV HALO_EVENTS_VERSION=v0.10.4
-ENV HALO_SCANS_VERSION=v0.11
 ENV FIREWALL_GRAPH_VERSION=v0.1
-ENV HALOCELERY_VERSION=v0.4
+ENV HALOCELERY_VERSION=v0.4.1
 
 ENV HALO_API_HOSTNAME=api.cloudpassage.com
 ENV HALO_API_PORT=443
@@ -42,22 +40,6 @@ RUN pip install \
 # Setup for manual library installation
 RUN mkdir /src/
 WORKDIR /src/
-
-# Install Halo Events library
-RUN git clone \
-        -b  ${HALO_EVENTS_VERSION} \
-        --single-branch \
-        https://github.com/cloudpassage/halo-events && \
-    cd halo-events && \
-    pip install .
-
-# Install Halo Scans library
-RUN git clone \
-        -b ${HALO_SCANS_VERSION} \
-        --single-branch \
-        https://github.com/cloudpassage/halo-scans && \
-    cd halo-scans && \
-    pip install .
 
 # Install Firewall Graph library
 RUN git clone \
