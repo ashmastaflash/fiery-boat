@@ -33,6 +33,7 @@ RUN pip install \
     boto3==1.4.3 \
     celery[redis]==4.0.2 \
     cloudpassage==${HALO_SDK_VERSION} \
+    docker==2.6.1 \
     flower==0.9.1
 
 RUN pip install \
