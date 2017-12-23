@@ -48,7 +48,7 @@ RUN mkdir -p /app/halocelery
 COPY --from=downloader /app/halocelery.tar.gz /app/halocelery/halocelery.tar.gz
 
 RUN cd /app/halocelery && \
-    tar -zxvf halocelery.tar.gz && \
+    tar -zxvf halocelery.tar.gz
 
 
 # Set the user and chown the app
