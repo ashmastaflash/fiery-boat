@@ -51,6 +51,8 @@ RUN cd /app/halocelery && \
     tar -zxvf halocelery.tar.gz
 
 
+WORKDIR /app/
+
 # Set the user and chown the app
 RUN groupadd ${APP_GROUP}
 
