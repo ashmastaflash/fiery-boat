@@ -2,7 +2,7 @@
 FROM docker.io/halotools/python-sdk:ubuntu-16.04_sdk-1.0.6 as downloader
 MAINTAINER toolbox@cloudpassage.com
 
-ARG HALOCELERY_BRANCH=v0.4.5
+ARG HALOCELERY_BRANCH=v0.4.6
 
 RUN apt-get update && \
     apt-get install -y \
@@ -22,11 +22,6 @@ RUN cd halocelery && \
 
 FROM docker.io/halotools/python-sdk:ubuntu-16.04_sdk-1.0.6
 MAINTAINER toolbox@cloudpassage.com
-
-
-# Versions of things and stuff
-ENV HALO_SDK_VERSION=1.0.1
-ENV HALOCELERY_VERSION=v0.4.4
 
 ENV HALO_API_HOSTNAME=api.cloudpassage.com
 ENV HALO_API_PORT=443
