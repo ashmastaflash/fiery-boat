@@ -1,14 +1,27 @@
-FROM ubuntu:17.04
-MAINTAINER @ashmastaflash
+# Get the halocelery component
+FROM docker.io/halotools/python-sdk:ubuntu-16.04_sdk-1.0.6 as downloader
+MAINTAINER toolbox@cloudpassage.com
+
+ARG HALOCELERY_BRANCH=v0.4.6
+
+RUN apt-get update && \
+    apt-get install -y \
+        git
+
+WORKDIR /app/
+
+RUN echo "Target branch for this build: $HALOCELERY_BRANCH"
+
+RUN git clone https://github.com/ashmastaflash/halocelery
+
+RUN cd halocelery && \
+    git archive --verbose --format=tar.gz -o /app/halocelery.tar.gz $HALOCELERY_BRANCH
 
 
-# Versions of things and stuff
-ENV HALO_SDK_VERSION=1.0.1
-ENV HALO_EVENTS_VERSION=v0.10.4
-ENV HALO_SCANS_VERSION=v0.11
-ENV FIREWALL_GRAPH_VERSION=v0.1
-ENV SCAN_GRAPH_VERSION=v0.1.1
-ENV HALOCELERY_VERSION=v0.2
+#####################################
+
+FROM docker.io/halotools/python-sdk:ubuntu-16.04_sdk-1.0.6
+MAINTAINER toolbox@cloudpassage.com
 
 ENV HALO_API_HOSTNAME=api.cloudpassage.com
 ENV HALO_API_PORT=443
@@ -16,73 +29,24 @@ ENV HALO_API_PORT=443
 ENV APP_USER=fieryboat
 ENV APP_GROUP=fieryboatgroup
 
-# Package installation
-RUN apt-get update && \
-    apt-get install -y \
-    gcc=4:6.3.0-2ubuntu1 \
-    git=1:2.11.0-2 \
-    graphviz=2.38.0-16ubuntu1 \
-    graphviz-dev=2.38.0-16ubuntu1 \
-    linux-headers-generic \
-    python=2.7.13-2 \
-    python-dev=2.7.13-2 \
-    python-pip=9.0.1-2
-
 
 # Install components from pip
 RUN pip install \
     boto3==1.4.3 \
     celery[redis]==4.0.2 \
-    cloudpassage==${HALO_SDK_VERSION} \
+    docker==2.6.1 \
     flower==0.9.1
 
-RUN pip install \
-    pygraphviz==1.4rc1 --install-option="--include-path=/usr/include/graphviz" --install-option="--library-path=/usr/lib/graphviz/"
-
-# Setup for manual library installation
-RUN mkdir /src/
-WORKDIR /src/
-
-# Install Halo Events library
-RUN git clone \
-        -b  ${HALO_EVENTS_VERSION} \
-        --single-branch \
-        https://github.com/cloudpassage/halo-events && \
-    cd halo-events && \
-    pip install .
-
-# Install Halo Scans library
-RUN git clone \
-        -b ${HALO_SCANS_VERSION} \
-        --single-branch \
-        https://github.com/cloudpassage/halo-scans && \
-    cd halo-scans && \
-    pip install .
-
-# Install Firewall Graph library
-RUN git clone \
-        -b ${FIREWALL_GRAPH_VERSION} \
-        --single-branch \
-        https://github.com/cloudpassage-community/firewall-graph && \
-    cd firewall-graph && \
-    pip install .
-
-# Install Scan Graph library
-RUN git clone \
-        -b ${SCAN_GRAPH_VERSION} \
-        --single-branch \
-        https://github.com/cloudpassage-community/scan-graph && \
-    cd scan-graph && \
-    pip install .
-
-
 # Copy over the app
-RUN mkdir /app
-WORKDIR /app
-RUN git clone \
-        -b ${HALOCELERY_VERSION} \
-        --single-branch \
-        https://github.com/ashmastaflash/halocelery
+RUN mkdir -p /app/halocelery
+
+COPY --from=downloader /app/halocelery.tar.gz /app/halocelery/halocelery.tar.gz
+
+RUN cd /app/halocelery && \
+    tar -zxvf halocelery.tar.gz
+
+
+WORKDIR /app/
 
 # Set the user and chown the app
 RUN groupadd ${APP_GROUP}
